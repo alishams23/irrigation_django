@@ -4,31 +4,40 @@ from account.models import User
 
 
 class SortedMembers(models.Model):
-    member = models.ForeignKey(User,on_delete=models.PROTECT)
-    sort = models.IntegerField(default=0)
+    member = models.ForeignKey(User,on_delete=models.PROTECT,verbose_name="شخص")
+    sort = models.IntegerField(default=0,verbose_name="نوبت")
     time = models.IntegerField(verbose_name="تایم به دقیقه")
     
     def __str__(self) -> str:
         return f"{self.member.username} --- {self.sort}"
+    class Meta:
+        verbose_name = "عضو مرتب شده "
+        verbose_name_plural = "اعضای مرتب شده "
 
 
 class Group(models.Model):
     name = models.TextField(verbose_name="نام گروه")
     members = models.ManyToManyField(SortedMembers,verbose_name="اعضا",)
-    is_reverse = models.BooleanField(default=False)
-    is_reversed = models.BooleanField(default=False)
-    sort = models.IntegerField(default=1)
-    
+    is_reverse = models.BooleanField(default=False,verbose_name="قاببت معکوس بودن")
+    is_reversed = models.BooleanField(default=False,verbose_name=" آیا معکوس بوده است در این نوبت")
+    sort = models.IntegerField(default=1,verbose_name="نوبت ")
+    class Meta:
+        verbose_name = "  گروه "
+        verbose_name_plural = "  گروه ها "
+
 
 class WaterWell(models.Model):
     address = models.TextField(verbose_name="آدرس",)
     groups = models.ManyToManyField(Group,verbose_name="گروه",)
     is_on = models.BooleanField(default=True,verbose_name="روشن")
     admin = models.ForeignKey(User,verbose_name="ادمین",on_delete=models.PROTECT)
-    start_member = models.DateTimeField(verbose_name="تایم به دقیقه")
-    off_time = models.DateTimeField(verbose_name="تایم به دقیقه")
-    current_member = models.ForeignKey(SortedMembers,verbose_name="نوبت نفر",on_delete=models.PROTECT,related_name="+")
-    
+    start_member = models.DateTimeField(verbose_name="زمان شروع کاربر فعلی ")
+    off_time = models.DateTimeField(verbose_name="زمان خاموش شدن ")
+    current_member = models.ForeignKey(SortedMembers,verbose_name="نوبت شخص",on_delete=models.PROTECT,related_name="+")
+    class Meta:
+        verbose_name = "  چاه آب "
+        verbose_name_plural = "چاه های آب "
+
     def next_members(self):
         sorted_members = SortedMembers.objects.filter(
             group__in=self.groups.all()

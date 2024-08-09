@@ -9,7 +9,7 @@ from extensions.utils import jalali_converter
 from main.tasks import check_time_field
 from main.utils import calculate_order_members
 from .models import SortedMembers, WaterWell ,Group
-from .serializers import SortedMembersSerializer, WaterWellSerializer ,GroupSerializer,GroupSortUpdateSerializer
+from .serializers import SortedMembersSerializer, WaterWellSerializer ,GroupSerializer,GroupSortUpdateSerializer,MembersSortUpdateSerializer
 from django.db.models import Q
 
 
@@ -129,6 +129,31 @@ class GroupSortUpdateView(APIView):
                     group.save()
                 except Group.DoesNotExist:
                     return Response({"error": f"Group with id {item['id']} does not exist."},
+                                    status=status.HTTP_404_NOT_FOUND)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({"status": "sort fields updated successfully"}, status=status.HTTP_200_OK)
+    
+    
+
+class MembersSortUpdateView(APIView):
+    def put(self, request):
+        # Expecting a list of dicts with 'id' and 'sort'
+        group_data = request.data
+
+        if not isinstance(group_data, list):
+            return Response({"error": "Expected a list of dictionaries."}, status=status.HTTP_400_BAD_REQUEST)
+
+        for item in group_data:
+            serializer = MembersSortUpdateSerializer(data=item)
+            if serializer.is_valid():
+                try:
+                    group = SortedMembers.objects.get(id=item['id'],group__in=Group.objects.filter(waterwell__admin=self.request.user))
+                    group.sort = item['sort']
+                    group.save()
+                except SortedMembers.DoesNotExist:
+                    return Response({"error": f"SortedMembers with id {item['id']} does not exist."},
                                     status=status.HTTP_404_NOT_FOUND)
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

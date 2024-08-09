@@ -36,6 +36,13 @@ class GroupSortUpdateSerializer(serializers.ModelSerializer):
         model = Group
         fields = ['id', 'sort']
         
+
+class MembersSortUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SortedMembers
+        fields = ['id', 'sort']
+        
+        
 class WaterWellSerializer(serializers.ModelSerializer):
     def next_member_calculate (self , obj:WaterWell):
         # group : list[Group]= obj.groups.all().order_by("sort")

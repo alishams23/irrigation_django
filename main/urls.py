@@ -1,7 +1,7 @@
 
 from django.urls import path
 
-from main.views import TurnOnWaterWell,TurnOffWaterWell,WaterWellStatus,SortedMembersList,GroupListAPIView,GroupSortUpdateView
+from main.views import TurnOnWaterWell,TurnOffWaterWell,WaterWellStatus,SortedMembersList,GroupListAPIView,GroupSortUpdateView,MembersSortUpdateView
 
 urlpatterns = [
     # path("admin/", ),
@@ -11,4 +11,5 @@ urlpatterns = [
     path('sorted-members-list/', SortedMembersList.as_view(), name='sorted-members-list'),
     path('group-list-api-view/', GroupListAPIView.as_view(), name='group-list-api-view-main'),
     path('group-sort-update-view/', GroupSortUpdateView.as_view(), name='group-sort-update-view-main'),
+    path('members-sort-update-view/', MembersSortUpdateView.as_view(), name='members-sort-update-view-main'),
 ]
