@@ -42,7 +42,15 @@ class MembersSortUpdateSerializer(serializers.ModelSerializer):
         model = SortedMembers
         fields = ['id', 'sort']
         
+class MembersTimeUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SortedMembers
+        fields = ['id', 'time']
         
+class CurrentMemberWaterWellUpdateSerializer(serializers.Serializer):
+    start_member = serializers.IntegerField()
+    current_member = serializers.CharField()
+
 class WaterWellSerializer(serializers.ModelSerializer):
     def next_member_calculate (self , obj:WaterWell):
         # group : list[Group]= obj.groups.all().order_by("sort")

@@ -9,7 +9,7 @@ from extensions.utils import jalali_converter
 from main.tasks import check_time_field
 from main.utils import calculate_order_members
 from .models import SortedMembers, WaterWell ,Group
-from .serializers import SortedMembersSerializer, WaterWellSerializer ,GroupSerializer,GroupSortUpdateSerializer,MembersSortUpdateSerializer
+from .serializers import SortedMembersSerializer, WaterWellSerializer ,GroupSerializer,GroupSortUpdateSerializer,MembersSortUpdateSerializer,MembersTimeUpdateSerializer,CurrentMemberWaterWellUpdateSerializer
 from django.db.models import Q
 
 
@@ -106,6 +106,8 @@ class SortedMembersList(APIView):
 
 
 class GroupListAPIView(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    
     serializer_class = GroupSerializer
     def get_queryset(self):
         
@@ -113,6 +115,8 @@ class GroupListAPIView(generics.ListAPIView):
     
     
 class GroupSortUpdateView(APIView):
+    permission_classes = [IsAuthenticated]
+    
     def put(self, request):
         # Expecting a list of dicts with 'id' and 'sort'
         group_data = request.data
@@ -138,6 +142,8 @@ class GroupSortUpdateView(APIView):
     
 
 class MembersSortUpdateView(APIView):
+    permission_classes = [IsAuthenticated]
+    
     def put(self, request):
         # Expecting a list of dicts with 'id' and 'sort'
         group_data = request.data
@@ -159,3 +165,32 @@ class MembersSortUpdateView(APIView):
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         return Response({"status": "sort fields updated successfully"}, status=status.HTTP_200_OK)
+   
+   
+    
+class MemberTimeUpdateAPIView(generics.UpdateAPIView):
+    serializer_class = MembersTimeUpdateSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        return SortedMembers.objects.filter(group__in=Group.objects.filter(waterwell__admin=self.request.user))
+    
+    
+class WaterWellCurrentMemberUpdateAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, ):
+        data = request.data
+        serializer = CurrentMemberWaterWellUpdateSerializer(data=data)
+        if serializer.is_valid():
+            try:
+                water_well = WaterWell.objects.get(admin=request.user)
+                water_well.start_member = timezone.now() - timedelta(minutes=int(data["start_member"]))
+                water_well.current_member =  SortedMembers.objects.get(member__username = data["current_member"])
+                water_well.save()
+            except WaterWell.DoesNotExist:
+                return Response({'error': 'WaterWell or current_member not found or not authorized'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        return Response( status=status.HTTP_200_OK)
