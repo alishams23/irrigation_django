@@ -108,7 +108,8 @@ class SortedMembersList(APIView):
 class GroupListAPIView(generics.ListAPIView):
     serializer_class = GroupSerializer
     def get_queryset(self):
-        return Group.objects.filter(admin=self.request.user)
+        
+        return Group.objects.filter(waterwell__admin=self.request.user)
     
     
 class GroupSortUpdateView(APIView):
@@ -123,10 +124,9 @@ class GroupSortUpdateView(APIView):
             serializer = GroupSortUpdateSerializer(data=item)
             if serializer.is_valid():
                 try:
-                    group = Group.objects.get(id=item['id'],)
-                    if WaterWell.objects.filter(admin=request.user,group__in =group).exists():
-                        group.sort = item['sort']
-                        group.save()
+                    group = Group.objects.get(id=item['id'],waterwell__admin=self.request.user)
+                    group.sort = item['sort']
+                    group.save()
                 except Group.DoesNotExist:
                     return Response({"error": f"Group with id {item['id']} does not exist."},
                                     status=status.HTTP_404_NOT_FOUND)

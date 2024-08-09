@@ -26,7 +26,7 @@ class SortedMembersSerializer(serializers.ModelSerializer):
 
         
 class GroupSerializer(serializers.ModelSerializer):
-    members = SortedMembersSerializer()
+    members = SortedMembersSerializer(many=True)
     class Meta:
         model = Group
         fields = "__all__"
