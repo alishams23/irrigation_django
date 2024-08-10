@@ -30,66 +30,66 @@ admin.site.register(User, UserAdmin)
 
 
 
-class NotificationAdmin(admin.ModelAdmin):
-    list_display = ("id","receiver", "createdAdd")
-    search_fields = ("title","id")
+# class NotificationAdmin(admin.ModelAdmin):
+#     list_display = ("id","receiver", "createdAdd")
+#     search_fields = ("title","id")
     
     
 
 
-admin.site.register(Notification, NotificationAdmin)
+# admin.site.register(Notification, NotificationAdmin)
 
 
-class ZarinPalAdmin(admin.ModelAdmin):
-    search_fields = ("merchant_id","id" )
-    list_display = ("id","merchant_id",)
+# class ZarinPalAdmin(admin.ModelAdmin):
+#     search_fields = ("merchant_id","id" )
+#     list_display = ("id","merchant_id",)
 
 
 
 
-admin.site.register(ZarinPal, ZarinPalAdmin)
+# admin.site.register(ZarinPal, ZarinPalAdmin)
 
-class QueueSignUpAdmin(admin.ModelAdmin):
-    list_display = ("id",
-                    "phone_number",
-                     "first_name",
-                     "last_name",
-                    )
-    search_fields = ("first_name", "last_name","id")
-    list_filter = ('verify_phone', )
-
-    
-
-
-admin.site.register(QueueSignUp, QueueSignUpAdmin)
-
-
-class QueueVerifyShopAdmin(admin.ModelAdmin):
-    list_display = ("id",
-                     "author",
-                     "is_verified",
-                     "name",
-                    )
-    readonly_fields = ('confirmed', )
-    search_fields = ("name","id")
-    list_filter = ('is_verified', )
-
-
-    def confirmed(self, obj):
-        if obj.id != None :
-            url = reverse('account:confirm_shop_admin_panel', args=(obj.id,))
-            return format_html('<a class="button" href="{}">تایید ثبت نام</a>', url)
+# class QueueSignUpAdmin(admin.ModelAdmin):
+#     list_display = ("id",
+#                     "phone_number",
+#                      "first_name",
+#                      "last_name",
+#                     )
+#     search_fields = ("first_name", "last_name","id")
+#     list_filter = ('verify_phone', )
 
     
-admin.site.register(QueueVerifyShop, QueueVerifyShopAdmin)
 
 
-class TermsAdmin(admin.ModelAdmin):
-    list_display = ("id","title",)
-    search_fields = ("title","body","id" )
+# admin.site.register(QueueSignUp, QueueSignUpAdmin)
+
+
+# class QueueVerifyShopAdmin(admin.ModelAdmin):
+#     list_display = ("id",
+#                      "author",
+#                      "is_verified",
+#                      "name",
+#                     )
+#     readonly_fields = ('confirmed', )
+#     search_fields = ("name","id")
+#     list_filter = ('is_verified', )
+
+
+#     def confirmed(self, obj):
+#         if obj.id != None :
+#             url = reverse('account:confirm_shop_admin_panel', args=(obj.id,))
+#             return format_html('<a class="button" href="{}">تایید ثبت نام</a>', url)
+
+    
+# admin.site.register(QueueVerifyShop, QueueVerifyShopAdmin)
+
+
+# # class TermsAdmin(admin.ModelAdmin):
+# #     list_display = ("id","title",)
+# #     search_fields = ("title","body","id" )
 
 
 
-admin.site.register(Terms, TermsAdmin)
+# # admin.site.register(Terms, TermsAdmin)
 
 
