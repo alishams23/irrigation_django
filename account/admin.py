@@ -18,7 +18,7 @@ UserAdmin.fieldsets += (
             'city',
             'street',
             'zipCode',
-     
+            'sms_schedules',
         ),
     }),
 )

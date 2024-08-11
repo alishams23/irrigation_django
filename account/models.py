@@ -22,6 +22,7 @@ class User(AbstractUser):
     street = models.TextField(blank=True,null=True,verbose_name="خیابان")
     zipCode = models.TextField(blank=True,null=True,verbose_name="کد پستی")
     last_login_time = models.DateTimeField(auto_now_add=True,verbose_name="زمان اخرین لاگین ")
+    sms_schedules = models.IntegerField(default="1440",verbose_name="زمان یاد آوری")
 
     def is_special_user(self):
             if self.special_user > timezone.now():

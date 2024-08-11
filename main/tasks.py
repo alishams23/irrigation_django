@@ -86,10 +86,10 @@ def check_time_field():
                 item_year = time_to_tuple[0]
                 item_hour =  time.hour
                 item_minute =time.minute
-                
-                if round((time - current_time ).total_seconds() / 60)  == 30 : 
-                    # sendSms.delay(phone_number=User.objects.get(username =item["member"]["username"]).phone_number,template_id="617027",parameters=[{"name": "FIRST_NAME", "value":item["member"]["full_name"],},{"name": "TIME", "value":f"{item_hour}:{item_minute}",},{"name": "DATE", "value":f"{item_year}/{item_month}/{item_day}"}])
-                    pass
+                user :User = User.objects.get(username =item["member"]["username"])
+                if round((time - current_time ).total_seconds() / 60)  == user.sms_schedules : 
+                    sendSms.delay(phone_number=user.phone_number,template_id="617027",parameters=[{"name": "FIRST_NAME", "value":item["member"]["full_name"],},{"name": "TIME", "value":f"{item_hour}:{item_minute}",},{"name": "DATE", "value":f"{item_year}/{item_month}/{item_day}"}])
+                    
 
         
 
