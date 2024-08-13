@@ -88,7 +88,8 @@ def check_time_field():
                 item_minute =time.minute
                 user :User = User.objects.get(username =item["member"]["username"])
                 if round((time - current_time ).total_seconds() / 60)  == user.sms_schedules : 
-                    sendSms.delay(phone_number=user.phone_number,template_id="617027",parameters=[{"name": "FIRST_NAME", "value":item["member"]["full_name"],},{"name": "TIME", "value":f"{item_hour}:{item_minute}",},{"name": "DATE", "value":f"{item_year}/{item_month}/{item_day}"}])
+                    # sendSms.delay(phone_number=user.phone_number,template_id="617027",parameters=[{"name": "FIRST_NAME", "value":item["member"]["full_name"],},{"name": "TIME", "value":f"{item_hour}:{item_minute}",},{"name": "DATE", "value":f"{item_year}/{item_month}/{item_day}"}])
+                    pass
                     
 
         
