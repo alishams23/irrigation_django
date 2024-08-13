@@ -61,7 +61,7 @@ def check_time_field():
                 
                 #change reverse
                 if Group.objects.get(members= data[0]) != Group.objects.get(members= data[1]):
-                    current_group =  Group.objects.get(members= data[0])
+                    current_group =  Group.objects.get(members= data[1])
                     current_group.is_reversed =  not current_group.is_reversed if current_group.is_reverse == True else current_group.is_reversed
                     current_group.save()
                     
