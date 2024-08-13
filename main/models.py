@@ -9,7 +9,7 @@ class SortedMembers(models.Model):
     time = models.IntegerField(verbose_name="تایم به دقیقه")
     
     def __str__(self) -> str:
-        return f"{self.member.username} --- {self.sort}"
+        return f"{self.pk} -- {self.member.username} --- {self.sort}"
     class Meta:
         verbose_name = "عضو مرتب شده "
         verbose_name_plural = "اعضای مرتب شده "
@@ -21,9 +21,13 @@ class Group(models.Model):
     is_reverse = models.BooleanField(default=False,verbose_name="قاببت معکوس بودن")
     is_reversed = models.BooleanField(default=False,verbose_name=" آیا معکوس بوده است در این نوبت")
     sort = models.IntegerField(default=1,verbose_name="نوبت ")
+       
+    def __str__(self) -> str:
+        return f"{self.pk} -- {self.name} -- {self.sort}"
     class Meta:
         verbose_name = "  گروه "
         verbose_name_plural = "  گروه ها "
+        
 
 
 class WaterWell(models.Model):
@@ -34,6 +38,9 @@ class WaterWell(models.Model):
     start_member = models.DateTimeField(verbose_name="زمان شروع کاربر فعلی ")
     off_time = models.DateTimeField(verbose_name="زمان خاموش شدن ")
     current_member = models.ForeignKey(SortedMembers,verbose_name="نوبت شخص",on_delete=models.PROTECT,related_name="+")
+    
+    def __str__(self) -> str:
+        return f"{self.pk} -- {self.address} "
     class Meta:
         verbose_name = "  چاه آب "
         verbose_name_plural = "چاه های آب "
