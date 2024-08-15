@@ -13,6 +13,8 @@ class SortedMembers(models.Model):
     class Meta:
         verbose_name = "عضو مرتب شده "
         verbose_name_plural = "اعضای مرتب شده "
+        ordering = ["sort"]
+        
 
 
 class Group(models.Model):
@@ -27,6 +29,7 @@ class Group(models.Model):
     class Meta:
         verbose_name = "  گروه "
         verbose_name_plural = "  گروه ها "
+        ordering = ["sort"]
         
 
 
