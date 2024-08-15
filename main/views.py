@@ -107,8 +107,8 @@ class SortedMembersList(APIView):
 
 class GroupListAPIView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
-    
     serializer_class = GroupSerializer
+    ordering = ['sort']
     def get_queryset(self):
         
         return Group.objects.filter(waterwell__admin=self.request.user).order_by("sort")
