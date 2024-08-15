@@ -111,7 +111,7 @@ class GroupListAPIView(generics.ListAPIView):
     serializer_class = GroupSerializer
     def get_queryset(self):
         
-        return Group.objects.filter(waterwell__admin=self.request.user)
+        return Group.objects.filter(waterwell__admin=self.request.user).order_by("sort")
     
     
 class GroupSortUpdateView(APIView):
