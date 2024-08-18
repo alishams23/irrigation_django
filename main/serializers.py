@@ -69,4 +69,4 @@ class WaterWellSerializer(serializers.ModelSerializer):
     current_member = SortedMembersSerializer()
     class Meta:
         model = WaterWell
-        fields = ['id',  'is_on', 'is_admin','next_member',"current_member","start_member",]
+        fields = ['id',  'is_on', 'is_admin','next_member',"current_member","start_member","off_time"]
