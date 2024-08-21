@@ -20,8 +20,7 @@ class TurnOnWaterWell(APIView):
         try:
             if id != None : 
                 water_well = WaterWell.objects.get(code=id)
-                admin_user = water_well.admin
-                if self.request.user != admin_user or self.request.user.is_superuser == False:
+                if not (self.request.user.username == water_well.admin.username or self.request.user.is_superuser == True):
                     return Response( status=status.HTTP_403_FORBIDDEN)
             else:
                 water_well = WaterWell.objects.get(admin=request.user)
@@ -41,8 +40,7 @@ class TurnOffWaterWell(APIView):
         try:
             if id != None : 
                 water_well = WaterWell.objects.get(code=id)
-                admin_user = water_well.admin
-                if self.request.user != admin_user or self.request.user.is_superuser == False:
+                if not (self.request.user.username == water_well.admin.username or self.request.user.is_superuser == True):
                     return Response( status=status.HTTP_403_FORBIDDEN)
             else:
                 water_well = WaterWell.objects.get(admin=request.user)
