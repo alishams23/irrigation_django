@@ -16,9 +16,12 @@ from django.db.models import Q
 class TurnOnWaterWell(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, ):
+    def get(self, request,id = None  ):
         try:
-            water_well = WaterWell.objects.get(admin=request.user)
+            if id != None : 
+                water_well = WaterWell.objects.get(code=id)
+            else:
+                water_well = WaterWell.objects.get(admin=request.user)
         except WaterWell.DoesNotExist:
             return Response({'error': 'WaterWell not found or not authorized'}, status=status.HTTP_404_NOT_FOUND)
         water_well.start_member = water_well.start_member + (timezone.now() - water_well.off_time )
@@ -31,9 +34,12 @@ class TurnOnWaterWell(APIView):
 class TurnOffWaterWell(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, ):
+    def get(self, request,id = None ):
         try:
-            water_well = WaterWell.objects.get(admin=request.user)
+            if id != None : 
+                water_well = WaterWell.objects.get(code=id)
+            else:
+                water_well = WaterWell.objects.get(admin=request.user)
         except WaterWell.DoesNotExist:
             return Response({'error': 'WaterWell not found or not authorized'}, status=status.HTTP_404_NOT_FOUND)
 

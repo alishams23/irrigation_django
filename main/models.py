@@ -40,6 +40,7 @@ class WaterWell(models.Model):
     admin = models.ForeignKey(User,verbose_name="ادمین",on_delete=models.PROTECT)
     start_member = models.DateTimeField(verbose_name="زمان شروع کاربر فعلی ")
     off_time = models.DateTimeField(verbose_name="زمان خاموش شدن ")
+    code= models.IntegerField(blank=True,null=True,unique=True)
     current_member = models.ForeignKey(SortedMembers,verbose_name="نوبت شخص",on_delete=models.PROTECT,related_name="+")
     
     def __str__(self) -> str:
