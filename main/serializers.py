@@ -67,6 +67,7 @@ class WaterWellSerializer(serializers.ModelSerializer):
     next_member = serializers.SerializerMethodField("next_member_calculate")
     is_admin = serializers.SerializerMethodField("is_admin_check")
     current_member = SortedMembersSerializer()
+    previous_member = SortedMembersSerializer()
     class Meta:
         model = WaterWell
         fields = ['id',  'is_on', 'is_admin','next_member',"current_member","previous_member","start_member","off_time"]
