@@ -42,6 +42,7 @@ class WaterWell(models.Model):
     off_time = models.DateTimeField(verbose_name="زمان خاموش شدن ")
     code= models.IntegerField(blank=True,null=True,unique=True)
     current_member = models.ForeignKey(SortedMembers,verbose_name="نوبت شخص",on_delete=models.PROTECT,related_name="+")
+    previous_member = models.ForeignKey(SortedMembers,verbose_name="نفر قبل",blank=True,null=True,on_delete=models.PROTECT,related_name="+")
     
     def __str__(self) -> str:
         return f"{self.pk} -- {self.address} "

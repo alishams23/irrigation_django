@@ -66,6 +66,7 @@ def check_time_field():
                     current_group.save()
                     
                 water_well.current_member  = data[1]
+                water_well.previous_member  = data[0]
                 water_well.start_member = timezone.now().replace(second=0, microsecond=0)
                 water_well.save()
                 

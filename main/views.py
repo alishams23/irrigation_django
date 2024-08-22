@@ -197,6 +197,7 @@ class WaterWellCurrentMemberUpdateAPIView(APIView):
                 water_well = WaterWell.objects.get(admin=request.user)
                 water_well.start_member = timezone.now() - timedelta(minutes=int(data["start_member"]))
                 water_well.current_member =  SortedMembers.objects.get(member__username = data["current_member"])
+                water_well.previous_member =  None
                 water_well.save()
             except WaterWell.DoesNotExist:
                 return Response({'error': 'WaterWell or current_member not found or not authorized'}, status=status.HTTP_404_NOT_FOUND)
