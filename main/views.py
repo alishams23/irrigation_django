@@ -165,7 +165,7 @@ class MembersSortUpdateView(APIView):
             serializer = MembersSortUpdateSerializer(data=item)
             if serializer.is_valid():
                 try:
-                    group = SortedMembers.objects.get(id=item['id'],group__in=Group.objects.filter(waterwell__admin=self.request.user))
+                    group = SortedMembers.objects.get(id=item['id'],)
                     group.sort = item['sort']
                     group.save()
                 except SortedMembers.DoesNotExist:
