@@ -196,7 +196,7 @@ class WaterWellCurrentMemberUpdateAPIView(APIView):
             try:
                 water_well = WaterWell.objects.get(admin=request.user)
                 water_well.start_member = timezone.now() - timedelta(minutes=int(data["start_member"]))
-                water_well.current_member =  SortedMembers.objects.get(member__username = data["current_member"])
+                water_well.current_member =  SortedMembers.objects.get(id = data["current_member"])
                 water_well.previous_member =  None
                 water_well.save()
             except WaterWell.DoesNotExist:
