@@ -183,7 +183,7 @@ class MemberTimeUpdateAPIView(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated]
     
     def get_queryset(self):
-        return SortedMembers.objects.filter(group__in=Group.objects.filter(waterwell__admin=self.request.user))
+        return SortedMembers.objects.all()
     
     
 class WaterWellCurrentMemberUpdateAPIView(APIView):
