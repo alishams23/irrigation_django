@@ -58,7 +58,7 @@ class WaterWellStatus(APIView):
 
     def get(self, request, ):
         try:
-            water_well = WaterWell.objects.filter(Q(admin=request.user) | Q(groups__members = SortedMembers.objects.get(member = request.user))).first()
+            water_well = WaterWell.objects.filter(Q(admin=request.user) | Q(groups__members__in = SortedMembers.objects.filter(member = request.user))).first()
         except WaterWell.DoesNotExist:
             return Response({'error': 'WaterWell not found or not authorized'}, status=status.HTTP_404_NOT_FOUND)
         serializer = WaterWellSerializer(water_well,context={
@@ -73,7 +73,7 @@ class SortedMembersList(APIView):
 
     def get(self, request, ):
         try:
-            water_well = WaterWell.objects.filter(Q(admin=request.user)|  Q(groups__members = SortedMembers.objects.get(member = request.user))).first()
+            water_well = WaterWell.objects.filter(Q(admin=request.user)|  Q(groups__members__in = SortedMembers.objects.filter(member = request.user))).first()
         except WaterWell.DoesNotExist:
             return Response({'error': 'WaterWell not found or not authorized'}, status=status.HTTP_404_NOT_FOUND)
         data :list[SortedMembers] = calculate_order_members(water_well,30)
