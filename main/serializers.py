@@ -62,12 +62,20 @@ class WaterWellSerializer(serializers.ModelSerializer):
         # print(list_members)
         data = calculate_order_members(obj,2)
         return SortedMembersSerializer(data[data.index(obj.current_member):][1]).data
+    
+    def self_user_get (self , obj:WaterWell):
+        user : User = self.context.get("request").user
+        if user != None:
+            return {"full_name" : user.get_full_name(),"phone_number": user.phone_number}
+        return None
+    
     def is_admin_check(self,obj):
         return obj.admin == self.context.get('request', None).user
     next_member = serializers.SerializerMethodField("next_member_calculate")
     is_admin = serializers.SerializerMethodField("is_admin_check")
+    self_user = serializers.SerializerMethodField("self_user_get")
     current_member = SortedMembersSerializer()
     previous_member = SortedMembersSerializer()
     class Meta:
         model = WaterWell
-        fields = ['id',  'is_on', 'is_admin','next_member',"current_member","previous_member","start_member","off_time"]
+        fields = ['id',"address",  'is_on', 'is_admin','next_member',"current_member","previous_member","start_member","off_time","is_aqueduct","self_user"]

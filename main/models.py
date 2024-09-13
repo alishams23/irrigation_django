@@ -43,6 +43,7 @@ class WaterWell(models.Model):
     code= models.IntegerField(blank=True,null=True,unique=True)
     current_member = models.ForeignKey(SortedMembers,verbose_name="نوبت شخص",on_delete=models.PROTECT,related_name="+")
     previous_member = models.ForeignKey(SortedMembers,verbose_name="نفر قبل",blank=True,null=True,on_delete=models.PROTECT,related_name="+")
+    is_aqueduct = models.BooleanField(default=False,verbose_name="آیا قنات است")
     
     def __str__(self) -> str:
         return f"{self.pk} -- {self.address} "
