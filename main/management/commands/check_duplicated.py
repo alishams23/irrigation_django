@@ -13,7 +13,7 @@ class Command(BaseCommand):
 
         # Print results
         for member in sorted_members_in_multiple_groups:
-            self.stdout.write(f"Member {member.member.username} is in {member.group_count} groups.")
+            self.stdout.write(f"Member {member.id} is in {member.group_count} groups.")
 
 
         # self.stdout.write(f"{data}")
