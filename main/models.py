@@ -1,5 +1,8 @@
 from django.db import models
 from account.models import User
+from django.db import models
+from django.utils import timezone
+from django.core.validators import FileExtensionValidator
 # Create your models here.
 
 
@@ -93,3 +96,28 @@ class WaterWell(models.Model):
                 repeated_list.extend(subsequent_iterations_list)
 
         return repeated_list
+    
+    
+    
+
+
+class APKRelease(models.Model):
+    version = models.CharField(max_length=50, help_text="Version of the APK")
+    description = models.TextField(blank=True, help_text="Release notes or description")
+    file = models.FileField(upload_to='apk_releases/', validators=[FileExtensionValidator(['apk'])], help_text="Upload the APK file")
+    file_release = models.FileField(upload_to='apk_releases/', validators=[FileExtensionValidator(['apk'])], help_text="Upload the APK file")
+    upload_date = models.DateTimeField(default=timezone.now)
+    is_active = models.BooleanField(default=True, help_text="Mark as active release")
+    
+    def __str__(self):
+        return f"APK {self.version}"
+    
+    def get_download_link(self):
+        return self.file.url
+    class Meta:
+        verbose_name = "  فایل نصبی "
+        verbose_name_plural = "  فایل های نصبی "
+
+
+
+    

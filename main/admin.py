@@ -5,7 +5,7 @@ from django.contrib import admin
 from django.contrib import admin
 
 from main.forms import GroupAdminForm
-from .models import SortedMembers, Group, WaterWell
+from .models import SortedMembers, Group, WaterWell,APKRelease
 
 
 @admin.register(SortedMembers)
@@ -26,3 +26,11 @@ class WaterWellAdmin(admin.ModelAdmin):
     list_display = ("id",'address', 'is_on', 'admin')
     search_fields = ('address', 'admin__username')  # Assuming User model has a username field
     filter_horizontal = ('groups',)  # For ManyToManyField with Group
+    
+
+
+@admin.register(APKRelease)
+class APKReleaseAdmin(admin.ModelAdmin):
+    list_display = ('version', 'upload_date', 'is_active')
+    list_filter = ('is_active', 'upload_date')
+    search_fields = ('version', 'description')
