@@ -1,7 +1,7 @@
 from django.db.models import Count
 from django.core.management.base import BaseCommand
 
-from main.models import SortedMembers
+from main.models import Group, SortedMembers
 
 class Command(BaseCommand):
     help = 'Load subtitles from server django'
@@ -14,6 +14,8 @@ class Command(BaseCommand):
         # Print results
         for member in sorted_members_in_multiple_groups:
             self.stdout.write(f"Member {member.id} is in {member.group_count} groups.")
+            for item in Group.objects.filter(member = member):
+                self.stdout.write(f"{item.id} -- {item.name}")
 
 
         # self.stdout.write(f"{data}")
