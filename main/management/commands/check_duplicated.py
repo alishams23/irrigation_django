@@ -14,7 +14,7 @@ class Command(BaseCommand):
         # Print results
         for member in sorted_members_in_multiple_groups:
             self.stdout.write(f"Member {member.id} is in {member.group_count} groups.")
-            for item in Group.objects.filter(member = member):
+            for item in Group.objects.filter(members = member):
                 self.stdout.write(f"{item.id} -- {item.name}")
 
 
