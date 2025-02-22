@@ -1,4 +1,5 @@
 Irrigation Time Management System
+
 This Django-based application is designed to help farmers efficiently manage irrigation schedules. The app dynamically adjusts irrigation times based on various factors and checks the status of water wells by receiving SMS updates from well sensors. It ensures optimized irrigation schedules and provides notifications to farmers via SMS.
 
 Key features:
